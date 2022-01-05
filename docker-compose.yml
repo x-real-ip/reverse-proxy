@@ -1,0 +1,34 @@
+---
+version: "3"
+
+services:
+  prd-nginx-app:
+    image: nginx:latest
+    container_name: prd-nginx-app
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - reverse-proxy
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/letsencrypt/
+
+  prd-certbot-app:
+    image: certbot/certbot:latest
+    container_name: prd-certbot-app
+    networks:
+      - reverse-proxy
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  reverse-proxy:
+    driver: bridge
+    name: reverse-proxy
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16

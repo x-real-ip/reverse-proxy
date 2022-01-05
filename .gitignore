@@ -1,0 +1,7 @@
+etc/letsencrypt
+
+mail.*.conf
+
+*.env
+*.pem
+certbot/
