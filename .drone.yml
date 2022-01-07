@@ -56,28 +56,28 @@ name: validate
 #       dockerfile: nginx.dockerfile
 #       auto_tag: true
 
----
-kind: pipeline
-type: docker
-name: upgrade
+# ---
+# kind: pipeline
+# type: docker
+# name: upgrade
 
-depends_on:
-  - build
+# depends_on:
+#   - build
 
-steps:
-  - name: clean
-    image: appleboy/drone-ssh
-    settings:
-      host:
-        from_secret: ssh_host
-      username:
-        from_secret: ssh_user
-      password:
-        from_secret: ssh_password
-      port: 22
-      script:
-        - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
-        - docker image prune -f
+# steps:
+#   - name: clean
+#     image: appleboy/drone-ssh
+#     settings:
+#       host:
+#         from_secret: ssh_host
+#       username:
+#         from_secret: ssh_user
+#       password:
+#         from_secret: ssh_password
+#       port: 22
+#       script:
+#         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
+#         - docker image prune -f
 
 ---
 kind: pipeline
