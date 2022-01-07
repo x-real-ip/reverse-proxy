@@ -3,7 +3,7 @@ version: "3"
 
 services:
   prd-nginx-app:
-    image: nginx:latest
+    image: docker-registry.theautomation.nl/coen/prd-reverse-proxy-nginx:latest
     container_name: prd-nginx-app
     restart: unless-stopped
     ports:
@@ -24,6 +24,7 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+
 
 networks:
   reverse-proxy:

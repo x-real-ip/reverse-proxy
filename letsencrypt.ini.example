@@ -1,0 +1,14 @@
+# Email address for Certbot
+EMAIL_ADDRESS="example@domain.com"
+
+# Set to 1 if you're testing your setup to avoid hitting request limits
+STAGING=0
+
+# Directory where NGINX config files lives
+CONFIG_DIR="${PWD}/nginx/conf/public_*"
+
+# RSA key size
+RSA_KEY_SIZE=2048
+
+# Certbot docker image
+CERTBOT_IMAGE="certbot/certbot"

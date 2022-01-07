@@ -8,16 +8,12 @@
 [Nginx](https://www.nginx.com/): using this a reverse proxy which takes the client request, passes it on to one or more servers, and subsequently delivers the server's response back to the clients.
 
 [Certbot](https://www.nginx.com/): a free, open source software tool for automatically using Let’s Encrypt certificates on manually-administrated websites and services to enable HTTPS.
+If a certificate expires in less than from Let's encrypt defined renewal period, the certificate will be automatically renewed.
 
-## first run
+## Setup
 
-1. Remove all non-default configuration files from "nginx/conf" so that nginx does not load the configuration files at boot time. Because paths to the certificates are defined in the conf files that don't exist yet, nginx first boot will fail and therefore certbot can't retrieving certificates over port 80 since the nginx container is not running.
-2. Bring up nginx and certbot for the first time with docker-compose command.
-
-```bash
-docker-compose up -d
-```
-
-3. Once both containers have started, place the conf files that contain a certificate reference in the "nginx/conf" folder
-4. Fill in the variables in "cert.sh file
-5. Run the bash script cert.sh, it will create a Diffie-Hellman parameter file if it doesn't exist it will fetch certificates based on the configuration file names. Each configuration file with prefix "public" gets its own certificate.
+1. Install [docker-compose](https://docs.docker.com/compose/install/#install-compose).
+2. Clone this repository: `git clone https://github.com/theautomation/reverse-proxy.git .`
+3. Replace the NGINX config file with yours.
+4. Fill in the your variables in "letsencrypt.ini"
+5. Run the bash script letsencrypt.sh, it will create a Diffie-Hellman parameter file if it doesn't exist it will fetch certificates based on the configuration file names. Each configuration file with prefix "public_" gets its own certificate. filename must have full domain name between "public_" and ".conf". e.g. public_subdomain.domain.conf.
