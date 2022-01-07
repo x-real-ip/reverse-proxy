@@ -88,8 +88,8 @@ trigger:
     - success
     - failure
 
-depends_on:
-  - upgrade
+# depends_on:
+#   - upgrade
 
 steps:
   - name: send
