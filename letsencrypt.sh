@@ -13,7 +13,11 @@
 set -e
 
 # Include ini
-source "${PWD}"/letsencrypt.ini
+# shellcheck source=/dev/null
+source letsencrypt.ini
+
+echo "Using the following config variables:"
+cat letsencrypt.ini
 
 # Check if docker-compose is installed
 if ! [ -x "$(command -v docker-compose)" ]; then echo "### Error: docker-compose is not installed ..." exit 1 >&2; fi

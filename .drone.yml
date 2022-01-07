@@ -3,10 +3,10 @@ kind: pipeline
 name: validate
 
 steps:
-  - name: yamllint
-    image: sdesbure/yamllint:latest
-    commands:
-      - yamllint -c ./.yamllint .
+  # - name: yamllint
+  #   image: sdesbure/yamllint:latest
+  #   commands:
+  #     - yamllint -c ./.yamllint .
 
   - name: docker-compose
     image: tmaier/docker-compose:latest
