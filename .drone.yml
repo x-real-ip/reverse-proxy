@@ -13,28 +13,28 @@ name: validate
 #     commands:
 #       - docker-compose config -q
 
----
-kind: pipeline
-type: docker
-name: test
+# ---
+# kind: pipeline
+# type: docker
+# name: test
 
-steps:
-  - name: check config
-    image: nginx:latest
-    user: root
-    pull: always
-    volumes:
-      - name: certs
-        path: /etc/letsencrypt/
-    commands:
-      - rm -r /etc/nginx/conf.d/
-      - cp -R ./nginx/conf/ /etc/nginx/conf.d/
-      - nginx -t
+# steps:
+#   - name: check config
+#     image: nginx:latest
+#     user: root
+#     pull: always
+#     volumes:
+#       - name: certs
+#         path: /etc/letsencrypt/
+#     commands:
+#       - rm -r /etc/nginx/conf.d/
+#       - cp -R ./nginx/conf/ /etc/nginx/conf.d/
+#       - nginx -t
 
-volumes:
-  - name: certs
-    host:
-      path: /home/coen/docker-home-services/reverse-proxy/certbot/conf/
+# volumes:
+#   - name: certs
+#     host:
+#       path: /home/coen/docker-home-services/reverse-proxy/certbot/conf/
 
 ---
 kind: pipeline
