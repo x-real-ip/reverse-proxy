@@ -13,7 +13,15 @@ If a certificate expires in less than from Let's encrypt defined renewal period,
 ## Setup
 
 1. Install [docker-compose](https://docs.docker.com/compose/install/#install-compose).
-2. Clone this repository: `git clone https://github.com/theautomation/reverse-proxy.git .`
+2. Clone this repository: ```git clone https://github.com/theautomation/reverse-proxy.git .```
 3. Replace the NGINX config file with yours.
 4. Fill in the your variables in "letsencrypt.ini"
 5. Run the bash script letsencrypt.sh, it will create a Diffie-Hellman parameter file if it doesn't exist it will fetch certificates based on the configuration file names. Each configuration file with prefix "public_" gets its own certificate. filename must have full domain name between "public_" and ".conf". e.g. public_subdomain.domain.conf.
+
+
+## Delete certificate
+1. Go to repository directory where docker-compose.yml lives.
+2. Change certname in below command and run it.  
+```bash
+docker-compose run --rm --entrypoint "certbot delete --cert-name sub.domain.nl" prd-certbot-app
+```

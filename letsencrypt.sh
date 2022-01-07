@@ -45,6 +45,7 @@ for file in $CONFIG_DIR; do
     domain=$(basename "$file" | sed -e 's/public_\(.*\).conf/\1/')
     if [ ! -f ./certbot/conf/renewal/"$domain".conf ]; then
         echo "### Creating dummy certificate for $domain ... "
+        echo
         docker-compose run --rm --entrypoint \
             "mkdir -p /etc/letsencrypt/live/$domain/" prd-certbot-app
         docker-compose run --rm --entrypoint \
@@ -53,32 +54,43 @@ for file in $CONFIG_DIR; do
             -out '/etc/letsencrypt/live/$domain/fullchain.pem' \
             -subj '/CN=localhost'" \
             prd-certbot-app
+        echo
     fi
 done
 
 # Start NGINX webserver
+echo
 docker-compose up --force-recreate -d prd-nginx-app
+
+until [ "docker inspect -f {{.State.Running}} prd-nginx-app" != "true" ]; do
+    echo "### Waiting for nginx to start ..."
+    sleep 2
+done
 
 # Deleting dummy files
 for file in $CONFIG_DIR; do
     domain=$(basename "$file" | sed -e 's/public_\(.*\).conf/\1/')
     if [ ! -f ./certbot/conf/renewal/"$domain".conf ]; then
         echo "### Deleting dummy certificate for $domain ..."
+        echo
         docker-compose run --rm --entrypoint \
             "rm -rf /etc/letsencrypt/live/$domain" prd-certbot-app
+        echo
     fi
 done
 
 # Enable staging mode if needed
-if [ "$DRY_RUN" != 0 ]; then dry_run_arg="--dry-run"; fi
+if [ "$TEST" != 0 ]; then test_cert_arg="--test-cert"; fi
 
 # Issue certificates
 for file in $CONFIG_DIR; do
+    echo
     domain=$(basename "$file" | sed -e 's/public_\(.*\).conf/\1/')
-    echo "### Creating certificate for $domain ... "
+    echo "### Creating certificate for $domain ..."
+    echo
     docker-compose run --rm --entrypoint "\
     certbot certonly \
-    $dry_run_arg \
+    $test_cert_arg \
     --webroot \
     --webroot-path=/var/www/certbot/ \
     --email $EMAIL_ADDRESS \
@@ -89,10 +101,13 @@ for file in $CONFIG_DIR; do
     --domains $domain" prd-certbot-app
 done
 
-# while [ "docker inspect -f {{.State.Running}} prd-nginx-app" != "true" ]; do
-#     sleep 2
-# done
-
-# Reload nginx if config syntax is ok
-echo "### Reloading nginx ..."
-docker exec -it prd-nginx-app bash -c "nginx -t && nginx -s reload"
+# Restart nginx only if --test-cert  was off
+if [ "$TEST" == 0 ]; then
+    until [ "docker inspect -f {{.State.Running}} prd-nginx-app" != "true" ]; do
+        echo "### Waiting for nginx to start ..."
+        sleep 2
+    done
+    echo "### Reloading nginx ..."
+    echo
+    docker exec -it prd-nginx-app bash -c "nginx -t && nginx -s reload"
+fi

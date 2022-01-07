@@ -1,8 +1,8 @@
-# Email address for Certbot
-EMAIL_ADDRESS="example@domain.com"
-
 # Set to 1 if you're testing your setup to avoid hitting request limits
-STAGING=0
+DRY_RUN=1
+
+# Email address for Certbot
+EMAIL_ADDRESS="example@gmail.com"
 
 # Directory where NGINX config files lives
 CONFIG_DIR="${PWD}/nginx/conf/public_*"

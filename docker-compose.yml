@@ -3,7 +3,8 @@ version: "3"
 
 services:
   prd-nginx-app:
-    image: docker-registry.theautomation.nl/coen/prd-reverse-proxy-nginx:latest
+    image: nginx:latest
+    # image: docker-registry.theautomation.nl/coen/prd-reverse-proxy-nginx:latest
     container_name: prd-nginx-app
     restart: unless-stopped
     ports:
