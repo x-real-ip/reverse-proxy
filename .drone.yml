@@ -1,6 +1,6 @@
-# ---
-# kind: pipeline
-# name: validate
+---
+kind: pipeline
+name: validate
 
 # steps:
 #   - name: yamllint
