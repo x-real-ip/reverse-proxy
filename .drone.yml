@@ -1,6 +1,6 @@
----
-kind: pipeline
-name: validate
+# ---
+# kind: pipeline
+# name: validate
 
 # steps:
 #   - name: yamllint
@@ -36,33 +36,33 @@ name: validate
 #     host:
 #       path: /home/coen/docker-home-services/reverse-proxy/certbot/conf/
 
-# ---
-# kind: pipeline
-# type: docker
-# name: build
+---
+kind: pipeline
+type: docker
+name: build
 
 # depends_on:
 #   - validate
 
-#   - name: publish nginx
-#     image: plugins/docker
-#     settings:
-#       username:
-#         from_secret: docker-registry-username
-#       password:
-#         from_secret: docker-registry-password
-#       registry: docker-registry.theautomation.nl
-#       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-nginx
-#       dockerfile: nginx.dockerfile
-#       auto_tag: true
+  - name: publish nginx
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-registry-username
+      password:
+        from_secret: docker-registry-password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-nginx
+      dockerfile: nginx.dockerfile
+      auto_tag: true
 
 ---
 kind: pipeline
 type: docker
 name: upgrade
 
-# depends_on:
-#   - build
+depends_on:
+  - build
 
 steps:
   - name: clean
