@@ -48,7 +48,7 @@ docker-compose run --rm --entrypoint "certbot delete --cert-name myservice.mydom
 
 ## Docker network
 
-The docker-compose.yml specifies the network for NGINX. It is recommended that you place your services that you want to expose to the public internet on the same network as the NGINX container so that the container's hostname can be used and you don't have to expose the port to your docker host. of course you can change the subnet to your needs.
+The docker-compose.yml specifies the network for NGINX. It is recommended that you place your services that you want to expose to the public internet on the same network as the NGINX container so that the container's hostname can be used in the upstream section in the NGINX config file and that you don't have to expose the port(s) to your docker host. Ofcourse you can change the subnet to your needs.
 
 ```docker-compose
 networks:
