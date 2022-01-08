@@ -14,8 +14,8 @@ If a certificate expires in less than from Let's encrypt defined renewal period,
 
 1. Install [docker-compose](https://docs.docker.com/compose/install/#install-compose).
 2. Clone this repository: `git clone https://github.com/theautomation/reverse-proxy.git .`
-3. Replace the NGINX config file with yours.
-4. Check SSL paths in the NGINX config files
+3. Replace the NGINX config files with "public\_" prefix with yours.
+4. Check SSL paths in the NGINX config files. e.g.
 
 ```
     ssl_certificate /etc/letsencrypt/live/myservice.mydomain.com/fullchain.pem;
@@ -24,7 +24,7 @@ If a certificate expires in less than from Let's encrypt defined renewal period,
 
 5. Fill in the your variables in "letsencrypt.ini"
    - `TEST` set this to 1 when testing your configuration it avoid hitting request limits.
-   - `EMAIL_ADDRESS` it is recommended that you fill in a email adrress so certbot can automatically send you. [expiration emails](https://letsencrypt.org/docs/expiration-emails/) when your certificate is coming up for renewal.
+   - `EMAIL_ADDRESS` it is recommended that you fill in an email address so certbot can automatically send you [expiration emails](https://letsencrypt.org/docs/expiration-emails/) when your certificate is coming up for renewal.
    - `CONFIG_DIR` Directory where to put your NGINX configuration files.
    - `RSA_KEY_SIZE` leaving this empty will create a 4096 [rsa key size](https://en.wikipedia.org/wiki/Key_size), optionally set it to 2048.
    - `CERTBOT_IMAGE` leaving this empty will use the latest version of the [certbot docker image](https://hub.docker.com/r/certbot/certbot/tags), you can optionally choose a specific docker image version e.g. _certbot/certbot:v1.22.0_
@@ -59,3 +59,7 @@ networks:
       config:
         - subnet: 172.22.0.0/16
 ```
+
+## Other
+
+This repo is inspired on https://github.com/bloodhunterd/Certbot and https://github.com/wmnnd/nginx-certbot
