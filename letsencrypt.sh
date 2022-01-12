@@ -1,6 +1,6 @@
 #!/bin/bash
-# Script written by Coen Stam
 #
+# Script written by Coen Stam
 # This sets up Let's Encrypt SSL certificates and automatic renewal
 # using certbot: https://certbot.eff.org
 #
@@ -102,7 +102,7 @@ for file in $CONFIG_DIR; do
 done
 
 # Restart nginx only if --test-cert  was off
-if [ "$TEST" == 0 ]; then
+if [ "$TEST" == "0" ]; then
     until [ "docker inspect -f {{.State.Running}} prd-nginx-app" != "true" ]; do
         echo "### Waiting for nginx to start ..."
         sleep 2
