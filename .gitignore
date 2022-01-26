@@ -4,5 +4,6 @@ mail.*.conf
 
 *.env
 *.pem
+*.log
 certbot/
 letsencrypt.ini
